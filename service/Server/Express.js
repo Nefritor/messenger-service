@@ -1,13 +1,11 @@
 import cors from 'cors';
 import express from 'express';
-import WSExpress from 'express-ws';
 
 const getApplication = () => {
     const app = express();
     app.use(express.json());
     app.use(cors());
-    const wss = WSExpress(app).getWss();
-    return [app, wss];
+    return app;
 }
 
 const setAppRoutes = (app, routes) => {

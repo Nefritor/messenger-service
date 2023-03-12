@@ -1,3 +1,4 @@
+import WSExpress from 'express-ws';
 import fs from 'fs';
 import https from 'https';
 
@@ -10,7 +11,15 @@ const options = {
     cert: fs.readFileSync('./ssl/certificate.pem'),
 }
 
-const [app, wss] = getApplication();
+const app = getApplication();
+
+const PORT = 3333;
+
+const server = https.createServer(options, app).listen(PORT, () => {
+    console.log(`Server started on ${PORT}`);
+});
+
+const wss = WSExpress(app, server).getWss();
 
 const broadcast = getBroadcaster(wss);
 
@@ -57,10 +66,4 @@ openWS(app, {
     onClose: (ws, code) => {
         console.log(`user disconnected from ${ws.roomId} (${code}) - total: ${wss.clients.size}`);
     }
-});
-
-const PORT = 3333;
-
-https.createServer(options, app).listen(PORT, () => {
-    console.log(`Server started on ${PORT}`);
 });
