@@ -1,6 +1,14 @@
+import fs from 'fs';
+import https from 'https';
+
 import {getRoutes} from './service/Messenger/Routes.js';
 import {getApplication, setAppRoutes, openWS} from './service/Server/Express.js';
 import {getBroadcaster} from './service/Server/WebSocket.js';
+
+const options = {
+    key: fs.readFileSync('./ssl/privatekey.pem'),
+    cert: fs.readFileSync('./ssl/certificate.pem'),
+}
 
 const [app, wss] = getApplication();
 
@@ -53,6 +61,6 @@ openWS(app, {
 
 const PORT = 3333;
 
-app.listen(PORT, () => {
+https.createServer(options, app).listen(PORT, () => {
     console.log(`Server started on ${PORT}`);
 });
