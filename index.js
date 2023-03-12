@@ -22,7 +22,7 @@ openWS(app, {
 });
 
 openWS(app, {
-    url: '/room/:roomId/:user',
+    url: 'api/room/:roomId/:user',
     onOpen: (ws, req) => {
         ws.roomId = req.params.roomId;
         ws.user = req.params.user;
