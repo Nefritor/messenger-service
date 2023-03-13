@@ -11,25 +11,26 @@ const options = {
     cert: fs.readFileSync('./ssl/certificate.pem'),
 }
 
-const app = getApplication();
+const appSecured = getApplication();
+const appStandart = getApplication();
 
 const STANDART_PORT = 3333;
 const SECURED_PORT = 3334;
 
-const serverSecured = https.createServer(options, app).listen(SECURED_PORT, () => {
+const serverSecured = https.createServer(options, appSecured).listen(SECURED_PORT, () => {
     console.log(`Server started on ${SECURED_PORT}`);
 });
 
-const serverStandard = app.listen(STANDART_PORT, () => {
+const serverStandard = appStandart.listen(STANDART_PORT, () => {
     console.log(`Server started on ${STANDART_PORT}`);
 });
 
 const WebSocketServers = [
-    WSExpress(app, serverSecured).getWss(),
-    WSExpress(app, serverStandard).getWss()
+    [appSecured, WSExpress(appSecured, serverSecured).getWss()],
+    [appStandart, WSExpress(appStandart, serverStandard).getWss()]
 ];
 
-WebSocketServers.forEach((wss, i) => {
+WebSocketServers.forEach(([app, wss], i) => {
     const serverName = i === 0 ? 'secured' : 'standart';
 
     const broadcast = getBroadcaster(wss);
