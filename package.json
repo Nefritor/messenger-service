@@ -2,9 +2,11 @@
   "name": "messager-server",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start:unsecured": "node index.js",
+    "start:secured": "node index.js --secured",
     "debug": "node debug index.js",
-    "develop": "nodemon"
+    "develop:unsecured": "nodemon index.js",
+    "develop:secured": "nodemon index.js --secured"
   },
   "type": "module",
   "dependencies": {
@@ -14,6 +16,7 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-ws": "^5.0.2",
+    "minimist": "^1.2.8",
     "nodemon": "^2.0.20",
     "uuid": "^9.0.0"
   }
