@@ -14,5 +14,5 @@ const ssl = secured && {
 
 startConstructorApp({ssl});
 
-//startMessengerApp({ssl});
+startMessengerApp({ssl});
 
