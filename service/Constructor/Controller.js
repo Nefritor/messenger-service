@@ -2,7 +2,7 @@ import fs from 'fs';
 import {getRoutes} from './Routes.js';
 import {createApplication} from '../Base/Express.js';
 
-export const startApp = ({secured, showLog = true}) => {
+export const startApp = ({ssl, showLog = true}) => {
 
     const log = (...args) => {
         if (showLog) {
@@ -12,15 +12,7 @@ export const startApp = ({secured, showLog = true}) => {
 
     const constructorAppConfig = {
         router: getRoutes,
-        ...(secured ? {
-            port: 5556,
-            options: {
-                key: fs.readFileSync('./ssl/privatekey.pem'),
-                cert: fs.readFileSync('./ssl/certificate.pem')
-            }
-        } : {
-            port: 5555
-        })
+        ...(ssl ? { port: 1235, options: ssl } : { port: 1234 })
     }
 
     createApplication(constructorAppConfig, log);
