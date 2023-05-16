@@ -6,7 +6,7 @@ import WSExpress from 'express-ws';
 
 import {getBroadcaster} from './WebSocket.js';
 
-export const createApplication = ({options, port, router}) => {
+export const createApplication = ({options, port, router}, logger) => {
     const app = _getApplication();
 
     const server = (() => {
@@ -24,7 +24,7 @@ export const createApplication = ({options, port, router}) => {
 
     const broadcast = getBroadcaster(wss);
 
-    setAppRoutes(app, router(broadcast));
+    setAppRoutes(app, router(broadcast, logger));
 
     return [
         wss,
