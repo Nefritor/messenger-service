@@ -1,4 +1,3 @@
-import fs from 'fs';
 import {getRoutes} from './Routes.js';
 import {createApplication} from '../Base/Express.js';
 
@@ -10,10 +9,10 @@ export const startApp = ({ssl, showLog = true}) => {
         }
     }
 
-    const constructorAppConfig = {
+    const appConfig = {
         router: getRoutes,
-        ...(ssl ? { port: 1235, options: ssl } : { port: 1234 })
+        ...(ssl ? { port: 3336, options: ssl } : { port: 3335 })
     }
 
-    createApplication(constructorAppConfig, log);
+    createApplication(appConfig, log);
 }

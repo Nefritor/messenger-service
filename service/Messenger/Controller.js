@@ -1,4 +1,3 @@
-import fs from 'fs';
 import {getRoutes} from './Routes.js';
 import {createApplication} from '../Base/Express.js';
 
@@ -10,12 +9,12 @@ export const startApp = ({ssl, showLog = true}) => {
         }
     }
 
-    const messengerAppConfig = {
+    const appConfig = {
         router: getRoutes,
         ...(ssl ? { port: 3334, options: ssl } : { port: 3333 })
     }
 
-    const [wss, broadcast, openWebSocket] = createApplication(messengerAppConfig, log);
+    const [wss, broadcast, openWebSocket] = createApplication(appConfig, log);
 
     openWebSocket({
         url: '/rooms',
