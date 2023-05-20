@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-const MAIN_DATA_PATH = './service/Constructor/Data/Main.json';
+const MAIN_DATA_PATH = './database/Main.json';
 
 const readMain = () => JSON.parse(fs.readFileSync(MAIN_DATA_PATH));
 
@@ -36,6 +36,13 @@ const removeExercise = (id) => {
     });
 }
 
+const updateExerciseData = (data) => {
+    const mainData = readMain();
+    const index = mainData.exercises.indexOf((data) => data.id);
+    mainData.exercises.splice(index, 1, data)
+    writeMain(mainData);
+}
+
 const getRoutes = (broadcast, log) => [{
     type: 'get',
     url: '/exercise-list',
@@ -60,6 +67,13 @@ const getRoutes = (broadcast, log) => [{
     url: '/remove-exercise',
     callback: ({data, send, sendStatus}) => {
         removeExercise(data.id);
+        sendStatus(200);
+    }
+}, {
+    type: 'post',
+    url: '/update-exercise',
+    callback: ({data, send, sendStatus}) => {
+        updateExerciseData(data);
         sendStatus(200);
     }
 }]
