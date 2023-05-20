@@ -12,7 +12,5 @@ const ssl = secured && {
     cert: fs.readFileSync('./ssl/certificate.pem')
 }
 
-startConstructorApp({ssl});
-
 startMessengerApp({ssl});
 
